@@ -327,7 +327,7 @@ You should see `lesson1_setup.sql` listed as a new or modified file.
 ### Step 3: Stage Your Changes
 
 ```bash
-git add lessons/lesson1_setup.sql
+git add lessons/lesson1_setup.sql database/starwars.db
 ```
 
 This tells Git you want to save this file.

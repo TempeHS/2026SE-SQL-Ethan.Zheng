@@ -8,6 +8,7 @@
 ## 🎯 Learning Objectives
 
 By the end of this lesson, you will be able to:
+
 - Understand database normalization and why it matters
 - Design one-to-many relationships
 - Create related tables with foreign keys
@@ -21,6 +22,7 @@ By the end of this lesson, you will be able to:
 Currently, our `characters` table stores homeworld as TEXT. This creates problems:
 
 **Problems with Single Table Design:**
+
 1. **Duplication:** "Tatooine" is stored multiple times
 2. **Inconsistency:** One entry might say "Tatooine", another "tatooine"
 3. **Limited information:** We can't store climate, population, etc.
@@ -37,15 +39,16 @@ Currently, our `characters` table stores homeworld as TEXT. This creates problem
 **Definition:** One record in Table A relates to many records in Table B.
 
 **Examples:**
+
 - One planet → Many characters (many characters from one planet)
 - One character → Many vehicles (one character pilots many vehicles)
 - One vehicle → Many characters (many characters pilot one vehicle - this is many-to-many!)
 
 ### Primary Key vs Foreign Key
 
-| Key Type | Purpose | Example |
-|----------|---------|---------|
-| **Primary Key** | Uniquely identifies each row in a table | `id` in `planets` table |
+| Key Type        | Purpose                                   | Example                              |
+| --------------- | ----------------------------------------- | ------------------------------------ |
+| **Primary Key** | Uniquely identifies each row in a table   | `id` in `planets` table              |
 | **Foreign Key** | References a primary key in another table | `homeworld_id` in `characters` table |
 
 ---
@@ -62,7 +65,7 @@ Currently, our `characters` table stores homeworld as TEXT. This creates problem
 -- Lesson 5: Multiple Tables and Relationships (Schema)
 -- Student Name: [Your Name]
 -- Date: [Today's Date]
--- 
+--
 -- This script creates related tables with foreign keys
 ```
 
@@ -110,6 +113,7 @@ CREATE TABLE IF NOT EXISTS character_vehicles (
 ```
 
 **Explanation:**
+
 - `character_id` references the `characters` table
 - `vehicle_id` references the `vehicles` table
 - `PRIMARY KEY (character_id, vehicle_id)` ensures each pairing is unique
@@ -144,7 +148,7 @@ ALTER TABLE characters ADD COLUMN homeworld_id INTEGER;
 -- Lesson 5: Multiple Tables and Relationships (Data)
 -- Student Name: [Your Name]
 -- Date: [Today's Date]
--- 
+--
 -- This script inserts data into related tables
 ```
 
@@ -247,12 +251,14 @@ SELECT id, name, homeworld, homeworld_id FROM characters;
 A **foreign key** is a field that links to another table's primary key.
 
 **Benefits:**
+
 - **Data integrity:** Can't reference non-existent records
 - **Consistency:** One source of truth for planet data
 - **Efficiency:** Store planet data once, reference many times
 - **Easy updates:** Change planet name in one place
 
 **Example:**
+
 ```
 characters table:
 id | name          | homeworld_id
@@ -272,14 +278,17 @@ Luke's `homeworld_id = 1` links to Tatooine (id = 1) in the planets table.
 **Normalization** is the process of organizing data to reduce redundancy.
 
 ### Before (One Table):
+
 ```
 id | name          | homeworld | climate | population
 1  | Luke Skywalker| Tatooine  | arid    | 200000
 2  | Darth Vader   | Tatooine  | arid    | 200000
 ```
+
 - "Tatooine", "arid", "200000" stored twice (duplication!)
 
 ### After (Two Tables):
+
 ```
 characters:
 id | name          | homeworld_id
@@ -290,6 +299,7 @@ planets:
 id | name     | climate | population
 1  | Tatooine | arid    | 200000
 ```
+
 - Planet data stored once, referenced multiple times!
 
 ---
@@ -324,6 +334,7 @@ INSERT INTO character_vehicles (character_id, vehicle_id) VALUES
 **Problem:** Trying to insert a character_id or vehicle_id that doesn't exist.
 
 **Solution:** Verify the IDs exist:
+
 ```sql
 SELECT id, name FROM characters;
 SELECT id, name FROM vehicles;
@@ -334,6 +345,7 @@ SELECT id, name FROM vehicles;
 **Problem:** Trying to insert a planet that already exists.
 
 **Solution:** Check existing planets first:
+
 ```sql
 SELECT name FROM planets;
 ```
@@ -349,13 +361,15 @@ SELECT name FROM planets;
 **Problem:** `homeworld_id` doesn't match actual planet IDs.
 
 **Solution:** Use subqueries to find correct IDs:
+
 ```sql
 SELECT id FROM planets WHERE name = 'Tatooine';
 ```
 
 ### Many-to-Many Confusion
 
-**Remember:** 
+**Remember:**
+
 - One-to-many: Use foreign key in the "many" table
 - Many-to-many: Use junction table with two foreign keys
 
@@ -377,6 +391,7 @@ Before moving on, make sure you can:
 ## 🎯 Challenge Problem (Optional)
 
 **Task:** Design and create a `missions` table that tracks Star Wars missions. Each mission should have:
+
 - A unique ID
 - A name
 - A location (foreign key to planets)
@@ -391,7 +406,7 @@ Then create a `character_missions` junction table to track which characters part
 
 ```bash
 git status
-git add lessons/lesson5_schema.sql lessons/lesson5_data.sql
+git add lessons/lesson5_schema.sql lessons/lesson5_data.sql database/starwars.db
 git commit -m "Completed Lesson 5: Created related tables with foreign keys"
 git push
 ```
@@ -400,14 +415,14 @@ git push
 
 ## 📖 Key Concepts Learnt
 
-| Concept | Meaning |
-|---------|---------|
-| **Normalization** | Organizing data to reduce duplication |
-| **Primary Key** | Unique identifier for rows in a table |
-| **Foreign Key** | Field linking to another table's primary key |
-| **One-to-Many** | One record relates to many records |
-| **Many-to-Many** | Multiple records relate to multiple records |
-| **Junction Table** | Links two tables in many-to-many relationship |
+| Concept                   | Meaning                                       |
+| ------------------------- | --------------------------------------------- |
+| **Normalization**         | Organizing data to reduce duplication         |
+| **Primary Key**           | Unique identifier for rows in a table         |
+| **Foreign Key**           | Field linking to another table's primary key  |
+| **One-to-Many**           | One record relates to many records            |
+| **Many-to-Many**          | Multiple records relate to multiple records   |
+| **Junction Table**        | Links two tables in many-to-many relationship |
 | **Referential Integrity** | Ensuring foreign keys reference valid records |
 
 ---
@@ -420,7 +435,8 @@ You've now built a proper relational database! In the next lesson, you'll learn 
 
 ---
 
-**Need Help?** 
+**Need Help?**
+
 - Draw diagrams of table relationships
 - Verify IDs before creating foreign key links
 - Check constraints when inserts fail

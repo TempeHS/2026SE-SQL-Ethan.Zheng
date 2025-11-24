@@ -7,7 +7,7 @@
 -- Setup: Database and Environment
 -- ============================================
 
--- database: /workspaces/Learn_SQL_Basics/starwars.db
+-- database: /workspaces/Learn_SQL_Basics/database/starwars.db
 -- Use the ▷ button in the top right corner to run the entire file.
 
 -- ============================================

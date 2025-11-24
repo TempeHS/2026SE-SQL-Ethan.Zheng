@@ -8,6 +8,7 @@
 ## 🎯 Learning Objectives
 
 By the end of this lesson, you will be able to:
+
 - Sort query results with ORDER BY
 - Sort in ascending and descending order
 - Sort by multiple columns
@@ -41,7 +42,7 @@ Databases don't store data in any particular order. When you query a table, rows
 -- Lesson 3: Sorting and Limiting Results
 -- Student Name: [Your Name]
 -- Date: [Today's Date]
--- 
+--
 -- This script demonstrates ORDER BY and LIMIT clauses
 ```
 
@@ -144,8 +145,8 @@ SELECT columns FROM table_name ORDER BY column1, column2;
 
 ```sql
 -- Query 7: Sort by species first, then by name within each species
-SELECT name, species, homeworld 
-FROM characters 
+SELECT name, species, homeworld
+FROM characters
 ORDER BY species, name;
 ```
 
@@ -155,12 +156,13 @@ ORDER BY species, name;
 
 ```sql
 -- Query 8: Sort by species (A-Z), then height (tallest to shortest)
-SELECT name, species, height 
-FROM characters 
+SELECT name, species, height
+FROM characters
 ORDER BY species ASC, height DESC;
 ```
 
-**Explanation:** 
+**Explanation:**
+
 - First, groups by species alphabetically
 - Within each species group, sorts by height (tallest first)
 
@@ -168,8 +170,8 @@ ORDER BY species ASC, height DESC;
 
 ```sql
 -- Query 9: Group by homeworld, then by species
-SELECT homeworld, species, name 
-FROM characters 
+SELECT homeworld, species, name
+FROM characters
 ORDER BY homeworld, species;
 ```
 
@@ -198,9 +200,9 @@ SELECT name FROM characters LIMIT 5;
 
 ```sql
 -- Query 11: Find the tallest character
-SELECT name, height 
-FROM characters 
-ORDER BY height DESC 
+SELECT name, height
+FROM characters
+ORDER BY height DESC
 LIMIT 1;
 ```
 
@@ -210,9 +212,9 @@ LIMIT 1;
 
 ```sql
 -- Query 12: Find the three shortest characters
-SELECT name, height 
-FROM characters 
-ORDER BY height ASC 
+SELECT name, height
+FROM characters
+ORDER BY height ASC
 LIMIT 3;
 ```
 
@@ -243,6 +245,7 @@ SELECT name FROM characters ORDER BY name LIMIT 5 OFFSET 3;
 ```
 
 **Explanation:**
+
 - Skip first 3 rows
 - Then return the next 5 rows
 
@@ -270,10 +273,10 @@ You can combine all the techniques you've learnt!
 ### Order of Clauses
 
 ```sql
-SELECT columns 
-FROM table_name 
-WHERE condition 
-ORDER BY column 
+SELECT columns
+FROM table_name
+WHERE condition
+ORDER BY column
 LIMIT number;
 ```
 
@@ -283,10 +286,10 @@ LIMIT number;
 
 ```sql
 -- Query 15: Find the tallest human
-SELECT name, species, height 
-FROM characters 
-WHERE species = 'Human' 
-ORDER BY height DESC 
+SELECT name, species, height
+FROM characters
+WHERE species = 'Human'
+ORDER BY height DESC
 LIMIT 1;
 ```
 
@@ -294,10 +297,10 @@ LIMIT 1;
 
 ```sql
 -- Query 16: Find 3 characters NOT from Tatooine, sorted by name
-SELECT name, homeworld 
-FROM characters 
-WHERE homeworld != 'Tatooine' 
-ORDER BY name 
+SELECT name, homeworld
+FROM characters
+WHERE homeworld != 'Tatooine'
+ORDER BY name
 LIMIT 3;
 ```
 
@@ -311,9 +314,9 @@ Complete these queries in your `lesson3_sorting.sql` file:
 
 ```sql
 -- Exercise 1: Find the 5 tallest characters
-SELECT name, height 
-FROM characters 
-ORDER BY height DESC 
+SELECT name, height
+FROM characters
+ORDER BY height DESC
 LIMIT 5;
 ```
 
@@ -321,8 +324,8 @@ LIMIT 5;
 
 ```sql
 -- Exercise 2: List all unique species in alphabetical order
-SELECT DISTINCT species 
-FROM characters 
+SELECT DISTINCT species
+FROM characters
 ORDER BY species;
 ```
 
@@ -330,9 +333,9 @@ ORDER BY species;
 
 ```sql
 -- Exercise 3: Find all humans sorted by height (shortest first)
-SELECT name, species, height 
-FROM characters 
-WHERE species = 'Human' 
+SELECT name, species, height
+FROM characters
+WHERE species = 'Human'
 ORDER BY height ASC;
 ```
 
@@ -340,9 +343,9 @@ ORDER BY height ASC;
 
 ```sql
 -- Exercise 4: Find the second and third tallest characters
-SELECT name, height 
-FROM characters 
-ORDER BY height DESC 
+SELECT name, height
+FROM characters
+ORDER BY height DESC
 LIMIT 2 OFFSET 1;
 ```
 
@@ -361,6 +364,7 @@ LIMIT 2 OFFSET 1;
 **Problem:** Forgot ORDER BY or used wrong column.
 
 **Solution:**
+
 ```sql
 -- WRONG: No ordering specified
 SELECT name FROM characters LIMIT 5;
@@ -374,6 +378,7 @@ SELECT name FROM characters ORDER BY name LIMIT 5;
 **Problem:** SQL clauses must be in specific order.
 
 **Solution:**
+
 ```sql
 -- WRONG: LIMIT before ORDER BY
 SELECT name FROM characters LIMIT 5 ORDER BY name;
@@ -389,10 +394,11 @@ SELECT name FROM characters ORDER BY name LIMIT 5;
 **Behaviour in SQLite:** NULL values sort FIRST in ascending order.
 
 **Solution:** Filter out NULLs if needed:
+
 ```sql
-SELECT name, height 
-FROM characters 
-WHERE height IS NOT NULL 
+SELECT name, height
+FROM characters
+WHERE height IS NOT NULL
 ORDER BY height;
 ```
 
@@ -401,6 +407,7 @@ ORDER BY height;
 **Problem:** Using OFFSET without ORDER BY gives unpredictable results.
 
 **Solution:** Always use ORDER BY with OFFSET:
+
 ```sql
 -- WRONG: Unpredictable results
 SELECT name FROM characters LIMIT 3 OFFSET 3;
@@ -416,6 +423,7 @@ SELECT name FROM characters ORDER BY name LIMIT 3 OFFSET 3;
 **Example:** 'a' comes after 'Z' because lowercase has higher ASCII values.
 
 **Solution:** Use `COLLATE NOCASE` for case-insensitive sorting:
+
 ```sql
 SELECT name FROM characters ORDER BY name COLLATE NOCASE;
 ```
@@ -441,6 +449,7 @@ Before moving on, make sure you can:
 **Task:** Find characters whose names contain the letter 'a', sorted by height (shortest first), and show only the second and third results.
 
 **Requirements:**
+
 - Use WHERE with LIKE
 - Use ORDER BY
 - Use LIMIT and OFFSET
@@ -457,10 +466,10 @@ Before moving on, make sure you can:
 <summary>Click to reveal the solution</summary>
 
 ```sql
-SELECT name, height 
-FROM characters 
-WHERE name LIKE '%a%' 
-ORDER BY height ASC 
+SELECT name, height
+FROM characters
+WHERE name LIKE '%a%'
+ORDER BY height ASC
 LIMIT 2 OFFSET 1;
 ```
 
@@ -481,7 +490,7 @@ git status
 ### Step 2: Stage Your File
 
 ```bash
-git add lessons/lesson3_sorting.sql
+git add lessons/lesson3_sorting.sql database/starwars.db
 ```
 
 ### Step 3: Commit
@@ -500,15 +509,15 @@ git push
 
 ## 📖 Key SQL Commands Learnt
 
-| Command | Purpose | Example |
-|---------|---------|---------|
-| `ORDER BY` | Sort results | `ORDER BY name` |
-| `ASC` | Sort ascending (default) | `ORDER BY height ASC` |
-| `DESC` | Sort descending | `ORDER BY height DESC` |
-| `LIMIT` | Restrict number of results | `LIMIT 5` |
-| `OFFSET` | Skip rows | `LIMIT 5 OFFSET 3` |
-| `ALTER TABLE` | Modify table structure | `ALTER TABLE characters ADD COLUMN height INTEGER` |
-| `UPDATE` | Modify existing data | `UPDATE characters SET height = 172 WHERE name = 'Luke'` |
+| Command       | Purpose                    | Example                                                  |
+| ------------- | -------------------------- | -------------------------------------------------------- |
+| `ORDER BY`    | Sort results               | `ORDER BY name`                                          |
+| `ASC`         | Sort ascending (default)   | `ORDER BY height ASC`                                    |
+| `DESC`        | Sort descending            | `ORDER BY height DESC`                                   |
+| `LIMIT`       | Restrict number of results | `LIMIT 5`                                                |
+| `OFFSET`      | Skip rows                  | `LIMIT 5 OFFSET 3`                                       |
+| `ALTER TABLE` | Modify table structure     | `ALTER TABLE characters ADD COLUMN height INTEGER`       |
+| `UPDATE`      | Modify existing data       | `UPDATE characters SET height = 172 WHERE name = 'Luke'` |
 
 ---
 
@@ -535,7 +544,8 @@ You can now organise and control your query results! In the next lesson, you'll 
 
 ---
 
-**Need Help?** 
+**Need Help?**
+
 - Check clause order carefully
 - Test without LIMIT first to see all results
 - Verify column names exist

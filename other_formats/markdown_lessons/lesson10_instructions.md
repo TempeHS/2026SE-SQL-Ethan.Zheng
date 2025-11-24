@@ -581,8 +581,8 @@ Before finishing, make sure you can:
 
 ```bash
 git status
-git add lessons/lesson10_comparison.md
-git add lessons/lesson10_orm_demo.py  # If you created this
+git add lessons/lesson10_comparison.md database/starwars.db
+git add lessons/lesson10_orm_demo.py database/starwars.db  # If you created this
 git commit -m "Completed Lesson 10: ORM and NoSQL database comparison"
 git push
 ````

@@ -43,6 +43,10 @@ import re
 from pathlib import Path
 from typing import List
 
+# Project directory conventions
+DEFAULT_SOURCE_DIR = Path("other_formats/markdown_lessons")
+DEFAULT_OUTPUT_DIR = Path("other_formats/pdf_lessons")
+
 # Attempt to import required dependencies with graceful failure
 try:
     from weasyprint import HTML, CSS
@@ -674,8 +678,11 @@ educational content styling.
     parser.add_argument(
         "--output-dir",
         type=str,
-        default="./other_formats/pdf_lessons",
-        help="Output directory for PDF files (default: ./other_formats/pdf_lessons)",
+        default=str(DEFAULT_OUTPUT_DIR),
+        help=(
+            "Output directory for PDF files (default: "
+            f"{DEFAULT_OUTPUT_DIR.as_posix()})"
+        ),
     )
 
     # Utility options
@@ -723,20 +730,22 @@ educational content styling.
     # Process based on arguments
     if args.all:
         # Convert markdown lessons directory
-        directories_to_search = [
-            Path("other_formats/markdown_lessons"),  # Primary lessons directory
-            Path("docs"),
-            Path("samples"),
-        ]
+        directories_to_search = [DEFAULT_SOURCE_DIR]
 
         for directory in directories_to_search:
             if directory.exists():
                 print(f"🔍 Searching {directory}...")
                 converter.convert_all_in_directory(directory, output_dir)
                 print()
+            else:
+                print(f"ℹ️  Skipping missing directory: {directory}")
 
     elif args.file:
         input_file = Path(args.file)
+        if not input_file.exists():
+            fallback_file = DEFAULT_SOURCE_DIR / args.file
+            if fallback_file.exists():
+                input_file = fallback_file
         converter.convert_single_file(input_file, output_dir)
 
     elif args.directory:

@@ -544,7 +544,7 @@ Before moving on, make sure you can:
 
 ```bash
 git status
-git add lessons/lesson9_database.py
+git add lessons/lesson9_database.py database/starwars.db
 git commit -m "Completed Lesson 9: Python SQLite database integration"
 git push
 ```

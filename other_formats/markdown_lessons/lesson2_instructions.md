@@ -8,6 +8,7 @@
 ## 🎯 Learning Objectives
 
 By the end of this lesson, you will be able to:
+
 - Retrieve specific columns from a table using SELECT
 - Filter data using the WHERE clause
 - Use comparison operators (=, !=, <, >, <=, >=)
@@ -21,6 +22,7 @@ By the end of this lesson, you will be able to:
 In Lesson 1, you created a database and inserted data. Now you'll learn how to **retrieve** specific information from your database. This is what makes databases so powerful!
 
 The `SELECT` statement is the most commonly used SQL command. It allows you to:
+
 - View all data in a table
 - Select specific columns
 - Filter rows based on conditions
@@ -40,7 +42,7 @@ The `SELECT` statement is the most commonly used SQL command. It allows you to:
 -- Lesson 2: Selecting and Filtering Data
 -- Student Name: [Your Name]
 -- Date: [Today's Date]
--- 
+--
 -- This script demonstrates SELECT queries with WHERE clauses
 ```
 
@@ -102,14 +104,14 @@ SELECT columns FROM table_name WHERE condition;
 
 ### Comparison Operators
 
-| Operator | Meaning | Example |
-|----------|---------|---------|
-| `=` | Equal to | `species = 'Human'` |
-| `!=` or `<>` | Not equal to | `species != 'Droid'` |
-| `<` | Less than | `id < 5` |
-| `>` | Greater than | `id > 3` |
-| `<=` | Less than or equal | `id <= 10` |
-| `>=` | Greater than or equal | `id >= 1` |
+| Operator     | Meaning               | Example              |
+| ------------ | --------------------- | -------------------- |
+| `=`          | Equal to              | `species = 'Human'`  |
+| `!=` or `<>` | Not equal to          | `species != 'Droid'` |
+| `<`          | Less than             | `id < 5`             |
+| `>`          | Greater than          | `id > 3`             |
+| `<=`         | Less than or equal    | `id <= 10`           |
+| `>=`         | Greater than or equal | `id >= 1`            |
 
 ### Step 5: Find All Humans
 
@@ -146,8 +148,8 @@ You can combine multiple conditions using `AND` and `OR`.
 
 ```sql
 -- Query 7: Find humans from Tatooine
-SELECT name, species, homeworld 
-FROM characters 
+SELECT name, species, homeworld
+FROM characters
 WHERE species = 'Human' AND homeworld = 'Tatooine';
 ```
 
@@ -157,8 +159,8 @@ WHERE species = 'Human' AND homeworld = 'Tatooine';
 
 ```sql
 -- Query 8: Find characters who are either Droids OR from Naboo
-SELECT name, species, homeworld 
-FROM characters 
+SELECT name, species, homeworld
+FROM characters
 WHERE species = 'Droid' OR homeworld = 'Naboo';
 ```
 
@@ -170,8 +172,8 @@ Use parentheses to group conditions:
 
 ```sql
 -- Query 9: Find humans from either Tatooine or Alderaan
-SELECT name, species, homeworld 
-FROM characters 
+SELECT name, species, homeworld
+FROM characters
 WHERE species = 'Human' AND (homeworld = 'Tatooine' OR homeworld = 'Alderaan');
 ```
 
@@ -185,10 +187,10 @@ The `LIKE` operator searches for patterns in text using wildcards.
 
 ### Wildcards
 
-| Wildcard | Meaning | Example |
-|----------|---------|---------|
-| `%` | Any number of characters (including zero) | `'L%'` matches "Luke", "Leia" |
-| `_` | Exactly one character | `'_oda'` matches "Yoda", "Boda" |
+| Wildcard | Meaning                                   | Example                         |
+| -------- | ----------------------------------------- | ------------------------------- |
+| `%`      | Any number of characters (including zero) | `'L%'` matches "Luke", "Leia"   |
+| `_`      | Exactly one character                     | `'_oda'` matches "Yoda", "Boda" |
 
 ### Step 8: Find Names Starting with a Letter
 
@@ -248,8 +250,8 @@ SELECT name, species FROM characters WHERE species != 'Droid';
 
 ```sql
 -- Exercise 3: Find all humans NOT from Tatooine
-SELECT name, species, homeworld 
-FROM characters 
+SELECT name, species, homeworld
+FROM characters
 WHERE species = 'Human' AND homeworld != 'Tatooine';
 ```
 
@@ -268,7 +270,8 @@ SELECT name FROM characters WHERE name LIKE '%Sky%';
 
 **Problem:** Misspelt column name.
 
-**Solution:** 
+**Solution:**
+
 ```sql
 -- WRONG:
 SELECT naam FROM characters;  -- 'naam' doesn't exist
@@ -281,7 +284,8 @@ SELECT name FROM characters;
 
 **Problem:** Table doesn't exist or misspelt table name.
 
-**Solution:** 
+**Solution:**
+
 - Check the table was created in Lesson 1
 - Verify spelling: `characters` not `character`
 
@@ -289,7 +293,8 @@ SELECT name FROM characters;
 
 **Problem:** WHERE condition doesn't match any rows.
 
-**Solution:** 
+**Solution:**
+
 - Check your condition logic
 - Verify data exists: `SELECT * FROM characters;`
 - Check for case sensitivity: `'human'` vs `'Human'`
@@ -315,6 +320,7 @@ SELECT * FROM characters WHERE species = 'human' COLLATE NOCASE;
 **Problem:** Forgetting wildcards.
 
 **Solution:**
+
 ```sql
 -- WRONG: Looks for exact match 'Luke'
 WHERE name LIKE 'Luke'
@@ -328,6 +334,7 @@ WHERE name LIKE '%Luke%'
 **Problem:** Logic error in conditions.
 
 **Example:**
+
 ```sql
 -- This returns NO results if no one is both a Droid AND Human
 WHERE species = 'Droid' AND species = 'Human'
@@ -347,7 +354,7 @@ Before moving on, make sure you can:
 - ✅ Filter rows with WHERE
 - ✅ Use comparison operators (=, !=, <, >, <=, >=)
 - ✅ Combine conditions with AND/OR
-- ✅ Use LIKE with wildcards (%, _)
+- ✅ Use LIKE with wildcards (%, \_)
 - ✅ Understand case sensitivity in text comparisons
 
 ---
@@ -370,8 +377,8 @@ Write a query that finds all characters whose **species contains "oid"** AND who
 <summary>Click to reveal the solution</summary>
 
 ```sql
-SELECT name, species, homeworld 
-FROM characters 
+SELECT name, species, homeworld
+FROM characters
 WHERE species LIKE '%oid%' AND homeworld LIKE 'N%';
 ```
 
@@ -392,7 +399,7 @@ git status
 ### Step 2: Stage Your File
 
 ```bash
-git add lessons/lesson2_queries.sql
+git add lessons/lesson2_queries.sql database/starwars.db
 ```
 
 ### Step 3: Commit with a Descriptive Message
@@ -411,16 +418,16 @@ git push
 
 ## 📖 Key SQL Commands Learnt
 
-| Command | Purpose | Example |
-|---------|---------|---------|
-| `SELECT` | Retrieve data from tables | `SELECT name FROM characters;` |
-| `WHERE` | Filter rows based on conditions | `WHERE species = 'Human'` |
-| `AND` | Both conditions must be true | `WHERE species = 'Human' AND homeworld = 'Tatooine'` |
-| `OR` | At least one condition must be true | `WHERE species = 'Droid' OR species = 'Human'` |
-| `LIKE` | Pattern matching | `WHERE name LIKE 'L%'` |
-| `%` | Wildcard: any characters | `'%Sky%'` |
-| `_` | Wildcard: exactly one character | `'_oda'` |
-| `DISTINCT` | Remove duplicate values | `SELECT DISTINCT species` |
+| Command    | Purpose                             | Example                                              |
+| ---------- | ----------------------------------- | ---------------------------------------------------- |
+| `SELECT`   | Retrieve data from tables           | `SELECT name FROM characters;`                       |
+| `WHERE`    | Filter rows based on conditions     | `WHERE species = 'Human'`                            |
+| `AND`      | Both conditions must be true        | `WHERE species = 'Human' AND homeworld = 'Tatooine'` |
+| `OR`       | At least one condition must be true | `WHERE species = 'Droid' OR species = 'Human'`       |
+| `LIKE`     | Pattern matching                    | `WHERE name LIKE 'L%'`                               |
+| `%`        | Wildcard: any characters            | `'%Sky%'`                                            |
+| `_`        | Wildcard: exactly one character     | `'_oda'`                                             |
+| `DISTINCT` | Remove duplicate values             | `SELECT DISTINCT species`                            |
 
 ---
 
@@ -432,7 +439,8 @@ You can now query your database and find exactly the information you need! In th
 
 ---
 
-**Need Help?** 
+**Need Help?**
+
 - Review the troubleshooting section above
 - Test queries one piece at a time
 - Use `SELECT *` first to see all data

@@ -8,6 +8,7 @@
 ## 🎯 Learning Objectives
 
 By the end of this lesson, you will be able to:
+
 - Understand why we need JOINs
 - Write INNER JOIN queries
 - Write LEFT JOIN queries
@@ -22,22 +23,24 @@ By the end of this lesson, you will be able to:
 **JOINs** combine rows from two or more tables based on a related column. They allow you to retrieve data spread across multiple tables in a single query.
 
 **Without JOINs:**
+
 - Query characters: Get `homeworld_id = 1`
 - Query planets: Find that ID 1 = "Tatooine"
 - Manually connect the information
 
 **With JOINs:**
+
 - One query returns character name AND planet name together!
 
 ---
 
 ## 🔗 Types of JOINs
 
-| Join Type | Returns | Use When |
-|-----------|---------|----------|
-| **INNER JOIN** | Only matching rows from both tables | You want records that exist in both tables |
-| **LEFT JOIN** | All rows from left table, matching from right | You want all from table A, even if no match in table B |
-| **RIGHT JOIN** | All rows from right table, matching from left | SQLite doesn't support; use LEFT JOIN instead |
+| Join Type      | Returns                                       | Use When                                               |
+| -------------- | --------------------------------------------- | ------------------------------------------------------ |
+| **INNER JOIN** | Only matching rows from both tables           | You want records that exist in both tables             |
+| **LEFT JOIN**  | All rows from left table, matching from right | You want all from table A, even if no match in table B |
+| **RIGHT JOIN** | All rows from right table, matching from left | SQLite doesn't support; use LEFT JOIN instead          |
 
 ---
 
@@ -52,7 +55,7 @@ By the end of this lesson, you will be able to:
 -- Lesson 6: Table Joins
 -- Student Name: [Your Name]
 -- Date: [Today's Date]
--- 
+--
 -- This script demonstrates INNER and LEFT joins
 ```
 
@@ -68,7 +71,7 @@ INNER JOIN table2 ON table1.column = table2.column;
 
 ```sql
 -- Query 1: Show characters with their homeworld details
-SELECT 
+SELECT
     characters.name AS character_name,
     characters.species,
     planets.name AS homeworld_name,
@@ -78,6 +81,7 @@ INNER JOIN planets ON characters.homeworld_id = planets.id;
 ```
 
 **Explanation:**
+
 - `characters.name` - Specify which table the column comes from
 - `AS character_name` - Rename column in results (avoids confusion when both tables have "name")
 - `ON characters.homeworld_id = planets.id` - How tables relate
@@ -90,7 +94,7 @@ Table names can be long. Use **aliases** to shorten them:
 
 ```sql
 -- Query 2: Same query with table aliases
-SELECT 
+SELECT
     c.name AS character_name,
     c.species,
     p.name AS planet_name,
@@ -108,7 +112,7 @@ Let's combine characters, vehicles, and the junction table:
 
 ```sql
 -- Query 3: Show which characters pilot which vehicles
-SELECT 
+SELECT
     c.name AS character_name,
     v.name AS vehicle_name,
     v.vehicle_class
@@ -119,6 +123,7 @@ ORDER BY c.name;
 ```
 
 **Explanation:**
+
 1. Start with `characters` table
 2. Join to `character_vehicles` (junction table) linking characters to vehicles
 3. Join to `vehicles` table to get vehicle details
@@ -128,7 +133,7 @@ ORDER BY c.name;
 
 ```sql
 -- Query 4: Find all humans and their homeworlds
-SELECT 
+SELECT
     c.name,
     c.species,
     p.name AS homeworld
@@ -143,7 +148,7 @@ WHERE c.species = 'Human';
 
 ```sql
 -- Query 5: Count how many characters are from each planet
-SELECT 
+SELECT
     p.name AS planet_name,
     COUNT(c.id) AS character_count
 FROM planets p
@@ -172,7 +177,7 @@ LEFT JOIN table2 ON table1.column = table2.column;
 
 ```sql
 -- Query 6: List all characters and their vehicles (including those with no vehicles)
-SELECT 
+SELECT
     c.name AS character_name,
     v.name AS vehicle_name
 FROM characters c
@@ -187,7 +192,7 @@ ORDER BY c.name;
 
 ```sql
 -- Query 7: Find characters who don't pilot any vehicles
-SELECT 
+SELECT
     c.name AS character_name,
     c.species
 FROM characters c
@@ -201,7 +206,7 @@ WHERE cv.vehicle_id IS NULL;
 
 ```sql
 -- Query 8: Find vehicles that no character pilots
-SELECT 
+SELECT
     v.name AS vehicle_name,
     v.vehicle_class
 FROM vehicles v
@@ -213,7 +218,7 @@ WHERE cv.character_id IS NULL;
 
 ```sql
 -- Query 9: Count characters per planet (including planets with 0 characters)
-SELECT 
+SELECT
     p.name AS planet_name,
     COUNT(c.id) AS character_count
 FROM planets p
@@ -232,7 +237,7 @@ ORDER BY character_count DESC;
 
 ```sql
 -- Query 10: Find humans who pilot starfighters
-SELECT 
+SELECT
     c.name AS character_name,
     v.name AS vehicle_name,
     v.vehicle_class
@@ -246,7 +251,7 @@ WHERE c.species = 'Human' AND v.vehicle_class = 'Starfighter';
 
 ```sql
 -- Query 11: Find characters who pilot more than one vehicle
-SELECT 
+SELECT
     c.name AS character_name,
     COUNT(v.id) AS vehicle_count
 FROM characters c
@@ -260,7 +265,7 @@ HAVING COUNT(v.id) > 1;
 
 ```sql
 -- Query 12: Character summary with all related data
-SELECT 
+SELECT
     c.name AS character,
     c.species,
     p.name AS homeworld,
@@ -282,7 +287,7 @@ ORDER BY c.name;
 
 ```sql
 -- Exercise 1: List all characters with their homeworld's population
-SELECT 
+SELECT
     c.name,
     p.name AS homeworld,
     p.population
@@ -294,7 +299,7 @@ INNER JOIN planets p ON c.homeworld_id = p.id;
 
 ```sql
 -- Exercise 2: Show all vehicle-pilot pairs with character species
-SELECT 
+SELECT
     c.name AS pilot,
     c.species,
     v.name AS vehicle
@@ -307,7 +312,7 @@ INNER JOIN vehicles v ON cv.vehicle_id = v.id;
 
 ```sql
 -- Exercise 3: Find all planets with no characters
-SELECT 
+SELECT
     p.name AS planet_name,
     p.climate
 FROM planets p
@@ -319,7 +324,7 @@ WHERE c.id IS NULL;
 
 ```sql
 -- Exercise 4: Show each vehicle with the count of who pilots it
-SELECT 
+SELECT
     v.name AS vehicle_name,
     COUNT(c.id) AS pilot_count
 FROM vehicles v
@@ -337,12 +342,14 @@ GROUP BY v.name;
 **Problem:** Column exists in multiple tables and you didn't specify which.
 
 **Wrong:**
+
 ```sql
 SELECT name FROM characters
 INNER JOIN planets ON homeworld_id = id;
 ```
 
 **Correct:**
+
 ```sql
 SELECT characters.name FROM characters
 INNER JOIN planets ON characters.homeworld_id = planets.id;
@@ -353,6 +360,7 @@ INNER JOIN planets ON characters.homeworld_id = planets.id;
 **Problem:** Misspelt column or using wrong table prefix.
 
 **Solution:** Verify column names:
+
 ```sql
 -- Check column names in each table
 PRAGMA table_info(characters);
@@ -366,6 +374,7 @@ PRAGMA table_info(planets);
 **Problem:** Used INNER JOIN when you needed LEFT JOIN.
 
 **Remember:**
+
 - INNER JOIN: Only rows with matches in BOTH tables
 - LEFT JOIN: ALL rows from left table, matches from right
 
@@ -374,12 +383,14 @@ PRAGMA table_info(planets);
 **Problem:** Joining on wrong columns.
 
 **Wrong:**
+
 ```sql
 FROM characters c
 INNER JOIN planets p ON c.id = p.id  -- Wrong columns!
 ```
 
 **Correct:**
+
 ```sql
 FROM characters c
 INNER JOIN planets p ON c.homeworld_id = p.id  -- Correct relationship
@@ -390,11 +401,13 @@ INNER JOIN planets p ON c.homeworld_id = p.id  -- Correct relationship
 **Problem:** Missing ON clause creates every possible combination.
 
 **Wrong:**
+
 ```sql
 SELECT * FROM characters, planets;  -- Returns 11 × 8 = 88 rows!
 ```
 
 **Correct:**
+
 ```sql
 SELECT * FROM characters
 INNER JOIN planets ON characters.homeworld_id = planets.id;
@@ -419,6 +432,7 @@ Before moving on, make sure you can:
 ## 🎯 Challenge Problem (Optional)
 
 **Task:** Create a query that shows each planet with:
+
 - Planet name
 - Climate
 - Number of characters from that planet
@@ -427,6 +441,7 @@ Before moving on, make sure you can:
 - Order by character count (descending), then planet name
 
 **Hints:**
+
 - Use LEFT JOIN
 - Use COUNT() and AVG()
 - Use GROUP BY
@@ -436,7 +451,7 @@ Before moving on, make sure you can:
 <summary>Click to reveal the solution</summary>
 
 ```sql
-SELECT 
+SELECT
     p.name AS planet_name,
     p.climate,
     COUNT(c.id) AS character_count,
@@ -455,7 +470,7 @@ ORDER BY character_count DESC, p.name;
 
 ```bash
 git status
-git add lessons/lesson6_joins.sql
+git add lessons/lesson6_joins.sql database/starwars.db
 git commit -m "Completed Lesson 6: INNER and LEFT joins across multiple tables"
 git push
 ```
@@ -464,13 +479,13 @@ git push
 
 ## 📖 Key SQL Commands Learnt
 
-| Command | Purpose | Example |
-|---------|---------|---------|
-| `INNER JOIN` | Return only matching rows | `INNER JOIN planets ON c.homeworld_id = p.id` |
-| `LEFT JOIN` | Return all from left table | `LEFT JOIN vehicles ON c.id = v.pilot_id` |
-| `ON` | Specify join condition | `ON table1.id = table2.foreign_id` |
-| Table Alias | Shorten table names | `FROM characters c` |
-| `IS NULL` | Check for NULL values | `WHERE cv.vehicle_id IS NULL` |
+| Command      | Purpose                    | Example                                       |
+| ------------ | -------------------------- | --------------------------------------------- |
+| `INNER JOIN` | Return only matching rows  | `INNER JOIN planets ON c.homeworld_id = p.id` |
+| `LEFT JOIN`  | Return all from left table | `LEFT JOIN vehicles ON c.id = v.pilot_id`     |
+| `ON`         | Specify join condition     | `ON table1.id = table2.foreign_id`            |
+| Table Alias  | Shorten table names        | `FROM characters c`                           |
+| `IS NULL`    | Check for NULL values      | `WHERE cv.vehicle_id IS NULL`                 |
 
 ---
 
@@ -498,7 +513,8 @@ You can now combine data from multiple tables! In the next lesson, you'll learn 
 
 ---
 
-**Need Help?** 
+**Need Help?**
+
 - Draw table relationships on paper
 - Test JOIN without WHERE first
 - Check which table has which columns

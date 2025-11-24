@@ -8,6 +8,7 @@
 ## 🎯 Learning Objectives
 
 By the end of this lesson, you will be able to:
+
 - Write subqueries in WHERE clauses
 - Use subqueries in SELECT statements
 - Work with IN, NOT IN, EXISTS, and NOT EXISTS
@@ -19,6 +20,7 @@ By the end of this lesson, you will be able to:
 ## 📚 What are Subqueries?
 
 A **subquery** (or nested query) is a query inside another query. They allow you to:
+
 - Use the results of one query in another
 - Break complex problems into simpler steps
 - Write more readable code
@@ -39,7 +41,7 @@ A **subquery** (or nested query) is a query inside another query. They allow you
 -- Lesson 8: Advanced Queries with Subqueries
 -- Student Name: [Your Name]
 -- Date: [Today's Date]
--- 
+--
 -- This script demonstrates subqueries and advanced query techniques
 ```
 
@@ -78,6 +80,7 @@ ORDER BY height DESC;
 ```
 
 **Breakdown:**
+
 1. Subquery calculates average height
 2. Main query finds characters above that average
 
@@ -88,8 +91,8 @@ ORDER BY height DESC;
 SELECT name, species
 FROM characters
 WHERE homeworld_id IN (
-    SELECT id 
-    FROM planets 
+    SELECT id
+    FROM planets
     WHERE terrain LIKE '%desert%'
 );
 ```
@@ -103,8 +106,8 @@ WHERE homeworld_id IN (
 SELECT name, species
 FROM characters
 WHERE homeworld_id NOT IN (
-    SELECT id 
-    FROM planets 
+    SELECT id
+    FROM planets
     WHERE name IN ('Tatooine', 'Alderaan')
 );
 ```
@@ -117,8 +120,8 @@ SELECT c.name, p.name AS homeworld, p.population
 FROM characters c
 JOIN planets p ON c.homeworld_id = p.id
 WHERE p.population > (
-    SELECT AVG(population) 
-    FROM planets 
+    SELECT AVG(population)
+    FROM planets
     WHERE population IS NOT NULL
 )
 ORDER BY p.population DESC;
@@ -145,8 +148,8 @@ WHERE EXISTS (SELECT 1 FROM table2 WHERE condition);
 SELECT name, species
 FROM characters c
 WHERE EXISTS (
-    SELECT 1 
-    FROM character_vehicles cv 
+    SELECT 1
+    FROM character_vehicles cv
     WHERE cv.character_id = c.id
 );
 ```
@@ -160,8 +163,8 @@ WHERE EXISTS (
 SELECT name, species
 FROM characters c
 WHERE NOT EXISTS (
-    SELECT 1 
-    FROM character_vehicles cv 
+    SELECT 1
+    FROM character_vehicles cv
     WHERE cv.character_id = c.id
 );
 ```
@@ -175,9 +178,9 @@ WHERE NOT EXISTS (
 SELECT p.name AS planet_name, p.climate
 FROM planets p
 WHERE EXISTS (
-    SELECT 1 
-    FROM characters c 
-    WHERE c.homeworld_id = p.id 
+    SELECT 1
+    FROM characters c
+    WHERE c.homeworld_id = p.id
     AND c.species = 'Human'
 );
 ```
@@ -218,11 +221,11 @@ You can use subqueries in the SELECT list to add calculated columns.
 
 ```sql
 -- Query 10: Show each character with a count of how many vehicles they pilot
-SELECT 
+SELECT
     c.name,
     c.species,
-    (SELECT COUNT(*) 
-     FROM character_vehicles cv 
+    (SELECT COUNT(*)
+     FROM character_vehicles cv
      WHERE cv.character_id = c.id) AS vehicle_count
 FROM characters c
 ORDER BY vehicle_count DESC;
@@ -234,7 +237,7 @@ ORDER BY vehicle_count DESC;
 
 ```sql
 -- Query 11: Character statistics
-SELECT 
+SELECT
     name,
     height,
     (SELECT AVG(height) FROM characters) AS avg_height,
@@ -257,8 +260,8 @@ ORDER BY height_difference DESC;
 SELECT name, species
 FROM characters
 WHERE homeworld_id IN (
-    SELECT id 
-    FROM planets 
+    SELECT id
+    FROM planets
     WHERE climate = 'temperate'
 );
 ```
@@ -288,8 +291,8 @@ HAVING COUNT(cv.character_id) > (
 SELECT name, climate
 FROM planets p
 WHERE NOT EXISTS (
-    SELECT 1 
-    FROM characters c 
+    SELECT 1
+    FROM characters c
     WHERE c.homeworld_id = p.id
 );
 ```
@@ -301,8 +304,8 @@ WHERE NOT EXISTS (
 SELECT name, species, height
 FROM characters
 WHERE height < (
-    SELECT MIN(height) 
-    FROM characters 
+    SELECT MIN(height)
+    FROM characters
     WHERE species = 'Droid' AND height IS NOT NULL
 )
 AND height IS NOT NULL;
@@ -317,12 +320,14 @@ AND height IS NOT NULL;
 **Problem:** Using = or > with a subquery that returns multiple values.
 
 **Wrong:**
+
 ```sql
 WHERE homeworld_id = (SELECT id FROM planets WHERE climate = 'temperate');
 -- Returns multiple planets!
 ```
 
 **Correct:**
+
 ```sql
 WHERE homeworld_id IN (SELECT id FROM planets WHERE climate = 'temperate');
 ```
@@ -332,6 +337,7 @@ WHERE homeworld_id IN (SELECT id FROM planets WHERE climate = 'temperate');
 **Problem:** Subquery runs for every row (correlated subquery).
 
 **Less Efficient:**
+
 ```sql
 SELECT name,
     (SELECT COUNT(*) FROM vehicles WHERE...) AS vehicle_count
@@ -339,6 +345,7 @@ FROM characters;
 ```
 
 **More Efficient:**
+
 ```sql
 SELECT c.name, COUNT(v.id) AS vehicle_count
 FROM characters c
@@ -353,12 +360,14 @@ GROUP BY c.name;
 **Problem:** Forgetting to reference outer query.
 
 **Wrong:**
+
 ```sql
 WHERE EXISTS (SELECT 1 FROM planets WHERE population > 1000000);
 -- Doesn't reference outer query at all!
 ```
 
 **Correct:**
+
 ```sql
 WHERE EXISTS (SELECT 1 FROM planets p WHERE c.homeworld_id = p.id AND p.population > 1000000);
 ```
@@ -368,6 +377,7 @@ WHERE EXISTS (SELECT 1 FROM planets p WHERE c.homeworld_id = p.id AND p.populati
 **Problem:** NULLs cause unexpected results.
 
 **Solution:** Filter NULLs in subquery:
+
 ```sql
 WHERE height > (SELECT AVG(height) FROM characters WHERE height IS NOT NULL);
 ```
@@ -390,10 +400,12 @@ Before moving on, make sure you can:
 ## 🎯 Challenge Problem (Optional)
 
 **Task:** Write a query using ONLY subqueries (no JOINs) that finds all characters who:
+
 1. Are from the same planet as someone who pilots a starfighter
 2. But do NOT pilot any starfighters themselves
 
 **Requirements:**
+
 - Use subqueries only (no JOINs)
 - Use IN or EXISTS
 - Filter correctly
@@ -438,7 +450,7 @@ AND id NOT IN (
 
 ```bash
 git status
-git add lessons/lesson8_advanced.sql
+git add lessons/lesson8_advanced.sql database/starwars.db
 git commit -m "Completed Lesson 8: Advanced queries with subqueries"
 git push
 ```
@@ -447,26 +459,26 @@ git push
 
 ## 📖 Key SQL Commands Learnt
 
-| Command | Purpose | Example |
-|---------|---------|---------|
-| Subquery in WHERE | Filter using nested query | `WHERE id = (SELECT...)` |
-| `IN` | Match any value in list | `WHERE id IN (SELECT...)` |
-| `NOT IN` | Exclude values in list | `WHERE id NOT IN (SELECT...)` |
-| `EXISTS` | Check if subquery returns rows | `WHERE EXISTS (SELECT...)` |
-| `NOT EXISTS` | Check if subquery returns no rows | `WHERE NOT EXISTS (SELECT...)` |
-| Subquery in SELECT | Calculate column value | `SELECT (SELECT COUNT(*)...)` |
-| Correlated Subquery | References outer query | `WHERE EXISTS (SELECT 1 WHERE outer.id = inner.id)` |
+| Command             | Purpose                           | Example                                             |
+| ------------------- | --------------------------------- | --------------------------------------------------- |
+| Subquery in WHERE   | Filter using nested query         | `WHERE id = (SELECT...)`                            |
+| `IN`                | Match any value in list           | `WHERE id IN (SELECT...)`                           |
+| `NOT IN`            | Exclude values in list            | `WHERE id NOT IN (SELECT...)`                       |
+| `EXISTS`            | Check if subquery returns rows    | `WHERE EXISTS (SELECT...)`                          |
+| `NOT EXISTS`        | Check if subquery returns no rows | `WHERE NOT EXISTS (SELECT...)`                      |
+| Subquery in SELECT  | Calculate column value            | `SELECT (SELECT COUNT(*)...)`                       |
+| Correlated Subquery | References outer query            | `WHERE EXISTS (SELECT 1 WHERE outer.id = inner.id)` |
 
 ---
 
 ## 🔄 Subquery vs JOIN Comparison
 
-| Aspect | Subquery | JOIN |
-|--------|----------|------|
-| **Readability** | Often clearer for simple cases | Better for complex relationships |
-| **Performance** | Can be slower (especially correlated) | Usually faster |
-| **Use Case** | Single value comparisons, EXISTS | Combining multiple table columns |
-| **Reusability** | Less reusable | Can join multiple tables once |
+| Aspect          | Subquery                              | JOIN                             |
+| --------------- | ------------------------------------- | -------------------------------- |
+| **Readability** | Often clearer for simple cases        | Better for complex relationships |
+| **Performance** | Can be slower (especially correlated) | Usually faster                   |
+| **Use Case**    | Single value comparisons, EXISTS      | Combining multiple table columns |
+| **Reusability** | Less reusable                         | Can join multiple tables once    |
 
 ---
 
@@ -478,7 +490,8 @@ You can now write complex nested queries! In the next lesson, you'll integrate S
 
 ---
 
-**Need Help?** 
+**Need Help?**
+
 - Start with simple subqueries first
 - Test subquery separately before nesting
 - Use comments to explain complex logic

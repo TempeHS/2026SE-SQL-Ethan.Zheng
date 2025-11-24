@@ -8,6 +8,7 @@
 ## 🎯 Learning Objectives
 
 By the end of this lesson, you will be able to:
+
 - Update existing records with UPDATE
 - Delete records safely with DELETE
 - Understand the critical importance of WHERE clauses
@@ -27,6 +28,7 @@ By the end of this lesson, you will be able to:
 - `DELETE FROM characters` → ALL characters deleted!
 
 **Always:**
+
 1. Write SELECT with WHERE first to test your condition
 2. Then change SELECT to UPDATE or DELETE
 3. Double-check before executing!
@@ -54,9 +56,9 @@ WHERE condition;
 -- Lesson 7: Updating and Deleting Data
 -- Student Name: [Your Name]
 -- Date: [Today's Date]
--- 
+--
 -- This script demonstrates UPDATE and DELETE operations
--- 
+--
 -- ⚠️  WARNING: Always use WHERE with UPDATE and DELETE!
 ```
 
@@ -84,7 +86,7 @@ SELECT id, name, affiliation FROM characters WHERE name = 'R2-D2';
 ```sql
 -- Update multiple columns at once
 UPDATE characters
-SET species = 'Human (Cyborg)', 
+SET species = 'Human (Cyborg)',
     affiliation = 'Galactic Empire'
 WHERE name = 'Darth Vader';
 
@@ -223,14 +225,14 @@ Constraints ensure data quality and prevent errors.
 
 ### Common Constraints
 
-| Constraint | Purpose | Example |
-|------------|---------|---------|
-| `PRIMARY KEY` | Unique identifier | `id INTEGER PRIMARY KEY` |
-| `NOT NULL` | Must have a value | `name TEXT NOT NULL` |
-| `UNIQUE` | No duplicates allowed | `email TEXT UNIQUE` |
-| `CHECK` | Must meet condition | `CHECK(height > 0)` |
-| `FOREIGN KEY` | Must reference valid record | `FOREIGN KEY (homeworld_id)` |
-| `DEFAULT` | Default value if none provided | `DEFAULT 'Unknown'` |
+| Constraint    | Purpose                        | Example                      |
+| ------------- | ------------------------------ | ---------------------------- |
+| `PRIMARY KEY` | Unique identifier              | `id INTEGER PRIMARY KEY`     |
+| `NOT NULL`    | Must have a value              | `name TEXT NOT NULL`         |
+| `UNIQUE`      | No duplicates allowed          | `email TEXT UNIQUE`          |
+| `CHECK`       | Must meet condition            | `CHECK(height > 0)`          |
+| `FOREIGN KEY` | Must reference valid record    | `FOREIGN KEY (homeworld_id)` |
+| `DEFAULT`     | Default value if none provided | `DEFAULT 'Unknown'`          |
 
 ### Step 11: Understanding Constraints
 
@@ -248,14 +250,15 @@ UPDATE characters SET height = -100 WHERE name = 'Yoda';
 
 ```sql
 -- Try to reference a planet that doesn't exist
-UPDATE characters 
-SET homeworld_id = 9999 
+UPDATE characters
+SET homeworld_id = 9999
 WHERE name = 'Luke Skywalker';
 ```
 
 **Expected:** Should fail if foreign key constraints are enabled.
 
 **Note:** SQLite foreign keys are disabled by default. Enable with:
+
 ```sql
 PRAGMA foreign_keys = ON;
 ```
@@ -300,6 +303,7 @@ SELECT name, affiliation, height FROM characters WHERE species = 'Human';
 ```
 
 **Use Transactions For:**
+
 - Multiple related updates
 - When testing risky operations
 - Ensuring data consistency
@@ -368,11 +372,13 @@ SELECT * FROM characters WHERE name = 'Test Delete';
 **Problem:** Missing WHERE, incorrect column name, or missing quotes.
 
 **Wrong:**
+
 ```sql
 UPDATE characters SET name = Luke WHERE id = 1;  -- Missing quotes
 ```
 
 **Correct:**
+
 ```sql
 UPDATE characters SET name = 'Luke' WHERE id = 1;
 ```
@@ -382,11 +388,13 @@ UPDATE characters SET name = 'Luke' WHERE id = 1;
 **Problem:** Forgot WHERE clause!
 
 **Wrong:**
+
 ```sql
 UPDATE characters SET species = 'Unknown';  -- Updates ALL rows!
 ```
 
 **Recovery Options:**
+
 1. If using transactions: `ROLLBACK`
 2. Restore from backup
 3. Re-run your INSERT statements
@@ -397,12 +405,14 @@ UPDATE characters SET species = 'Unknown';  -- Updates ALL rows!
 **Problem:** Trying to delete a record referenced by another table.
 
 **Example:**
+
 ```sql
 DELETE FROM planets WHERE name = 'Tatooine';
 -- Fails because characters reference this planet
 ```
 
 **Solutions:**
+
 1. Delete referencing records first (characters from Tatooine)
 2. Update foreign keys to NULL or different value
 3. Use CASCADE delete (advanced)
@@ -412,9 +422,10 @@ DELETE FROM planets WHERE name = 'Tatooine';
 **Problem:** WHERE condition too broad.
 
 **Prevention:**
+
 ```sql
 -- Always test with SELECT first
-SELECT * FROM characters WHERE species = 'Human';  
+SELECT * FROM characters WHERE species = 'Human';
 -- Check this returns ONLY the rows you want to update
 
 -- Then UPDATE
@@ -426,11 +437,13 @@ UPDATE characters SET affiliation = 'Changed' WHERE species = 'Human';
 **Problem:** Using = NULL instead of IS NULL.
 
 **Wrong:**
+
 ```sql
 SELECT * FROM characters WHERE affiliation = NULL;
 ```
 
 **Correct:**
+
 ```sql
 SELECT * FROM characters WHERE affiliation IS NULL;
 ```
@@ -454,11 +467,13 @@ Before moving on, make sure you can:
 ## 🎯 Challenge Problem (Optional)
 
 **Task:** Create a series of UPDATE statements that:
+
 1. Change all Rebel Alliance members to "New Republic"
 2. Add 5 cm to the height of all characters over 180 cm tall
 3. Set affiliation to "Retired" for Obi-Wan Kenobi and Yoda
 
 **Requirements:**
+
 - Use transactions
 - Test with SELECT first
 - Verify all changes
@@ -503,7 +518,7 @@ COMMIT;
 
 ```bash
 git status
-git add lessons/lesson7_modifications.sql
+git add lessons/lesson7_modifications.sql database/starwars.db
 git commit -m "Completed Lesson 7: UPDATE and DELETE operations with safety practices"
 git push
 ```
@@ -512,16 +527,16 @@ git push
 
 ## 📖 Key SQL Commands Learnt
 
-| Command | Purpose | Example |
-|---------|---------|---------|
-| `UPDATE` | Modify existing records | `UPDATE characters SET height = 180` |
-| `DELETE` | Remove records | `DELETE FROM characters WHERE id = 5` |
-| `SET` | Specify new values | `SET name = 'New Name', species = 'Human'` |
-| `CASE` | Conditional logic | `CASE WHEN species = 'Droid' THEN...` |
-| `BEGIN TRANSACTION` | Start transaction | `BEGIN TRANSACTION;` |
-| `COMMIT` | Save changes | `COMMIT;` |
-| `ROLLBACK` | Undo changes | `ROLLBACK;` |
-| `PRAGMA` | Configure database | `PRAGMA foreign_keys = ON;` |
+| Command             | Purpose                 | Example                                    |
+| ------------------- | ----------------------- | ------------------------------------------ |
+| `UPDATE`            | Modify existing records | `UPDATE characters SET height = 180`       |
+| `DELETE`            | Remove records          | `DELETE FROM characters WHERE id = 5`      |
+| `SET`               | Specify new values      | `SET name = 'New Name', species = 'Human'` |
+| `CASE`              | Conditional logic       | `CASE WHEN species = 'Droid' THEN...`      |
+| `BEGIN TRANSACTION` | Start transaction       | `BEGIN TRANSACTION;`                       |
+| `COMMIT`            | Save changes            | `COMMIT;`                                  |
+| `ROLLBACK`          | Undo changes            | `ROLLBACK;`                                |
+| `PRAGMA`            | Configure database      | `PRAGMA foreign_keys = ON;`                |
 
 ---
 
@@ -545,7 +560,8 @@ You can now safely modify and delete data! In the next lesson, you'll learn abou
 
 ---
 
-**Need Help?** 
+**Need Help?**
+
 - Always SELECT before DELETE/UPDATE
 - Use transactions when testing
 - Check row counts before and after

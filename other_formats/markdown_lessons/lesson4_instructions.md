@@ -8,6 +8,7 @@
 ## 🎯 Learning Objectives
 
 By the end of this lesson, you will be able to:
+
 - Use aggregate functions (COUNT, AVG, MAX, MIN, SUM)
 - Group data with GROUP BY
 - Filter groups with HAVING
@@ -39,19 +40,19 @@ By the end of this lesson, you will be able to:
 -- Lesson 4: Aggregate Functions and GROUP BY
 -- Student Name: [Your Name]
 -- Date: [Today's Date]
--- 
+--
 -- This script demonstrates aggregate functions and grouping data
 ```
 
 ### The Five Main Aggregate Functions
 
-| Function | Purpose | Example Result |
-|----------|---------|----------------|
-| `COUNT()` | Count rows | 11 |
-| `AVG()` | Calculate average | 165.7 |
-| `MAX()` | Find maximum value | 228 |
-| `MIN()` | Find minimum value | 66 |
-| `SUM()` | Add up values | 1823 |
+| Function  | Purpose            | Example Result |
+| --------- | ------------------ | -------------- |
+| `COUNT()` | Count rows         | 11             |
+| `AVG()`   | Calculate average  | 165.7          |
+| `MAX()`   | Find maximum value | 228            |
+| `MIN()`   | Find minimum value | 66             |
+| `SUM()`   | Add up values      | 1823           |
 
 ### Step 2: Count All Characters
 
@@ -109,7 +110,7 @@ SELECT SUM(height) FROM characters;
 
 ```sql
 -- Query 7: Get multiple statistics at once
-SELECT 
+SELECT
     COUNT(*) AS total_characters,
     AVG(height) AS average_height,
     MAX(height) AS tallest,
@@ -204,10 +205,10 @@ ORDER BY members DESC;
 
 ### WHERE vs HAVING
 
-| Clause | Filters | Used With | Example |
-|--------|---------|-----------|---------|
-| `WHERE` | Individual rows | Before grouping | `WHERE species = 'Human'` |
-| `HAVING` | Groups | After grouping | `HAVING COUNT(*) > 2` |
+| Clause   | Filters         | Used With       | Example                   |
+| -------- | --------------- | --------------- | ------------------------- |
+| `WHERE`  | Individual rows | Before grouping | `WHERE species = 'Human'` |
+| `HAVING` | Groups          | After grouping  | `HAVING COUNT(*) > 2`     |
 
 ### HAVING Syntax
 
@@ -255,6 +256,7 @@ HAVING COUNT(*) >= 2;
 ```
 
 **Explanation:**
+
 1. `WHERE species = 'Human'` - Filter to humans first
 2. `GROUP BY homeworld` - Group remaining rows by planet
 3. `HAVING COUNT(*) >= 2` - Only show groups with 2+ characters
@@ -334,12 +336,14 @@ HAVING COUNT(*) = 1;
 **Problem:** Using aggregate function without GROUP BY when other columns are selected.
 
 **Wrong:**
+
 ```sql
 SELECT species, COUNT(*)
 FROM characters;
 ```
 
 **Correct:**
+
 ```sql
 SELECT species, COUNT(*)
 FROM characters
@@ -357,31 +361,35 @@ GROUP BY species;
 ### WHERE vs HAVING Confusion
 
 **Wrong:**
+
 ```sql
 -- Can't use aggregate in WHERE
-SELECT species, COUNT(*) 
-FROM characters 
-WHERE COUNT(*) > 2 
+SELECT species, COUNT(*)
+FROM characters
+WHERE COUNT(*) > 2
 GROUP BY species;
 ```
 
 **Correct:**
+
 ```sql
 -- Use HAVING for aggregate conditions
-SELECT species, COUNT(*) 
-FROM characters 
+SELECT species, COUNT(*)
+FROM characters
 GROUP BY species
 HAVING COUNT(*) > 2;
 ```
 
 ### NULL Values in Aggregates
 
-**Important:** 
+**Important:**
+
 - `COUNT(*)` counts all rows (including NULLs)
 - `COUNT(column)` counts non-NULL values
 - `AVG()`, `SUM()`, `MAX()`, `MIN()` ignore NULLs
 
 **Example:**
+
 ```sql
 -- This counts all characters
 SELECT COUNT(*) FROM characters;
@@ -393,6 +401,7 @@ SELECT COUNT(height) FROM characters;
 ### Order of Clauses
 
 **Correct order:**
+
 ```sql
 SELECT columns
 FROM table
@@ -424,6 +433,7 @@ Before moving on, make sure you can:
 **Task:** Find which affiliation has the tallest average height, but only include affiliations with 2 or more members. Show the affiliation name, average height, and member count, sorted by average height (tallest first).
 
 **Requirements:**
+
 - Use AVG(), COUNT()
 - Use GROUP BY
 - Use HAVING to filter groups
@@ -442,7 +452,7 @@ Before moving on, make sure you can:
 <summary>Click to reveal the solution</summary>
 
 ```sql
-SELECT 
+SELECT
     affiliation,
     COUNT(*) AS member_count,
     ROUND(AVG(height), 2) AS avg_height
@@ -465,7 +475,7 @@ Save your progress!
 
 ```bash
 git status
-git add lessons/lesson4_aggregates.sql
+git add lessons/lesson4_aggregates.sql database/starwars.db
 git commit -m "Completed Lesson 4: Aggregate functions and GROUP BY"
 git push
 ```
@@ -474,18 +484,18 @@ git push
 
 ## 📖 Key SQL Commands Learnt
 
-| Command | Purpose | Example |
-|---------|---------|---------|
-| `COUNT()` | Count rows | `SELECT COUNT(*) FROM characters` |
-| `AVG()` | Calculate average | `SELECT AVG(height) FROM characters` |
-| `MAX()` | Find maximum | `SELECT MAX(height) FROM characters` |
-| `MIN()` | Find minimum | `SELECT MIN(height) FROM characters` |
-| `SUM()` | Add values | `SELECT SUM(height) FROM characters` |
-| `GROUP BY` | Group rows | `GROUP BY species` |
-| `HAVING` | Filter groups | `HAVING COUNT(*) > 2` |
-| `AS` | Column alias | `COUNT(*) AS total` |
-| `DISTINCT` | Unique values | `COUNT(DISTINCT species)` |
-| `ROUND()` | Round numbers | `ROUND(AVG(height), 2)` |
+| Command    | Purpose           | Example                              |
+| ---------- | ----------------- | ------------------------------------ |
+| `COUNT()`  | Count rows        | `SELECT COUNT(*) FROM characters`    |
+| `AVG()`    | Calculate average | `SELECT AVG(height) FROM characters` |
+| `MAX()`    | Find maximum      | `SELECT MAX(height) FROM characters` |
+| `MIN()`    | Find minimum      | `SELECT MIN(height) FROM characters` |
+| `SUM()`    | Add values        | `SELECT SUM(height) FROM characters` |
+| `GROUP BY` | Group rows        | `GROUP BY species`                   |
+| `HAVING`   | Filter groups     | `HAVING COUNT(*) > 2`                |
+| `AS`       | Column alias      | `COUNT(*) AS total`                  |
+| `DISTINCT` | Unique values     | `COUNT(DISTINCT species)`            |
+| `ROUND()`  | Round numbers     | `ROUND(AVG(height), 2)`              |
 
 ---
 
@@ -497,7 +507,8 @@ You can now perform calculations and analyse your data! In the next lesson, you'
 
 ---
 
-**Need Help?** 
+**Need Help?**
+
 - Remember: WHERE before GROUP BY, HAVING after
 - Check for NULL values affecting calculations
 - Verify all non-aggregate columns are in GROUP BY
